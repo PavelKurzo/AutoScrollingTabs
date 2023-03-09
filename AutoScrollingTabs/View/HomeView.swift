@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct HomeView: View {
-    @State private var activeTab: ProductType = .iphone
+    @State private var activeTab: ModelType = .horses
     @Namespace private var animation
-    @State private var productsBasedOnType: [[Product]] = []
+    @State private var productsBasedOnType: [[ModelData]] = []
     @State private var animationProgress: CGFloat = 0
     @State private var scrollableTabOffset: CGFloat = 0
     @State private var initialOffset: CGFloat = 0
@@ -37,7 +37,7 @@ struct HomeView: View {
             }
         }
         .coordinateSpace(name: "CONTENTVIEW")
-        .navigationTitle("Apple Store")
+        .navigationTitle("Info list")
         .toolbarBackground(.visible, for: .navigationBar)
         .toolbarBackground(Color("Purple"), for: .navigationBar)
         .toolbarColorScheme(.dark, for: .navigationBar)
@@ -49,7 +49,7 @@ struct HomeView: View {
         .onAppear {
             guard productsBasedOnType.isEmpty else { return }
             
-            for type in ProductType.allCases {
+            for type in ModelType.allCases {
                 let products = products.filter { $0.type == type }
                 productsBasedOnType.append(products)
             }
@@ -57,7 +57,7 @@ struct HomeView: View {
     }
     
     @ViewBuilder
-    func ProductSectionView(_ products: [Product]) -> some View {
+    func ProductSectionView(_ products: [ModelData]) -> some View {
         VStack(alignment: .leading, spacing: 15) {
             if let firstProduct = products.first {
                 Text(firstProduct.type.rawValue)
@@ -84,9 +84,9 @@ struct HomeView: View {
     }
     
     @ViewBuilder
-    func ProductRowView(_ product: Product) -> some View {
+    func ProductRowView(_ product: ModelData) -> some View {
         HStack(spacing: 15) {
-            Image(product.productImage)
+            Image(product.image)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 100, height: 100)
@@ -117,7 +117,7 @@ struct HomeView: View {
     func ScrollableTabs(_ proxy: ScrollViewProxy) -> some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 10) {
-                ForEach(ProductType.allCases, id: \.rawValue) { type in
+                ForEach(ModelType.allCases, id: \.rawValue) { type in
                     Text(type.rawValue)
                         .fontWeight(.semibold)
                         .foregroundColor(.white)

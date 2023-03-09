@@ -8,13 +8,13 @@
 import Foundation
 import SwiftUI
 
-extension [Product] {
-    var type: ProductType {
+extension [ModelData] {
+    var type: ModelType {
         if let firstProduct = self.first {
             return firstProduct.type
         }
         
-        return .iphone
+        return .horses
     }
 }
 
